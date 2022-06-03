@@ -3,34 +3,37 @@ import uuid
 from typing import Any, Awaitable, Callable, Dict, Iterable, List, Optional, Text
 
 import rasa.core.channels.channel
-from rasa.core.channels.channel import (
-    InputChannel,
-    OutputChannel,
-    UserMessage,
-)
+from rasa.core.channels.channel import InputChannel, OutputChannel, UserMessage
 import rasa.shared.utils.io
 from sanic import Blueprint, response, Sanic
 from sanic.request import Request
 from sanic.response import HTTPResponse
 from socketio import AsyncServer
 
-from rasa.core.tracker_store import TrackerStore
-
 logger = logging.getLogger(__name__)
-
-ts = None
 
 
 class SocketBlueprint(Blueprint):
     def __init__(
         self, sio: AsyncServer, socketio_path: Text, *args: Any, **kwargs: Any
     ) -> None:
-        self.sio = sio
-        self.socketio_path = socketio_path
+        """Creates a :class:`sanic.Blueprint` for routing socketio connenctions.
+
+        :param sio: Instance of :class:`socketio.AsyncServer` class
+        :param socketio_path: string indicating the route to accept requests on.
+        """
         super().__init__(*args, **kwargs)
+        self.ctx.sio = sio
+        self.ctx.socketio_path = socketio_path
 
     def register(self, app: Sanic, options: Dict[Text, Any]) -> None:
-        self.sio.attach(app, self.socketio_path)
+        """Attach the Socket.IO webserver to the given Sanic instance.
+
+        :param app: Instance of :class:`sanic.app.Sanic` class
+        :param options: Options to be used while registering the
+            blueprint into the app.
+        """
+        self.ctx.sio.attach(app, self.ctx.socketio_path)
         super().register(app, options)
 
 
@@ -41,7 +44,6 @@ class SocketIOOutput(OutputChannel):
 
     def __init__(self, sio: AsyncServer, bot_message_evt: Text) -> None:
         self.sio = sio
-
         self.bot_message_evt = bot_message_evt
 
     async def _send_message(self, socket_id: Text, response: Any) -> None:
@@ -56,8 +58,7 @@ class SocketIOOutput(OutputChannel):
 
         for message_part in text.strip().split("\n\n"):
             await self._send_message(recipient_id, {"text": message_part})
-
-        await self._send_message(recipient_id, {"action": kwargs['utter_action']})
+        await self._send_message(recipient_id, {'action': kwargs['utter_action']})
 
     async def send_image_url(
         self, recipient_id: Text, image: Text, **kwargs: Any
@@ -83,14 +84,14 @@ class SocketIOOutput(OutputChannel):
         messages = [{"text": message, "quick_replies": []} for message in message_parts]
 
         # attach all buttons to the last text fragment
-        for button in buttons:
-            messages[-1]["quick_replies"].append(
-                {
-                    "content_type": "text",
-                    "title": button["title"],
-                    "payload": button["payload"],
-                }
-            )
+        messages[-1]["quick_replies"] = [
+            {
+                "content_type": "text",
+                "title": button["title"],
+                "payload": button["payload"],
+            }
+            for button in buttons
+        ]
 
         for message in messages:
             await self._send_message(recipient_id, message)
@@ -118,12 +119,10 @@ class SocketIOOutput(OutputChannel):
         json_message.setdefault("room", recipient_id)
 
         # await self.sio.emit(self.bot_message_evt, **json_message)
-
         await self._send_message(recipient_id, {'text': json_message['text']})
         await self._send_message(recipient_id, {'action': kwargs['utter_action']})
 
-
-    async def send_attachment(
+    async def send_attachment(  # type: ignore[override]
         self, recipient_id: Text, attachment: Dict[Text, Any], **kwargs: Any
     ) -> None:
         """Sends an attachment to the user."""
@@ -135,7 +134,7 @@ class SocketIOInput(InputChannel):
 
     @classmethod
     def name(cls) -> Text:
-        return "rasaaddons.socketintent.SocketIOInput"
+        return "socketintent"
 
     @classmethod
     def from_credentials(cls, credentials: Optional[Dict[Text, Any]]) -> InputChannel:
@@ -181,46 +180,44 @@ class SocketIOInput(InputChannel):
                 "Please use a different channel for external events in these "
                 "scenarios."
             )
-            return
+            return None
         return SocketIOOutput(self.sio, self.bot_message_evt)
 
     def blueprint(
         self, on_new_message: Callable[[UserMessage], Awaitable[Any]]
     ) -> Blueprint:
+        """Defines a Sanic blueprint."""
         # Workaround so that socketio works with requests from other origins.
         # https://github.com/miguelgrinberg/python-socketio/issues/205#issuecomment-493769183
         sio = AsyncServer(async_mode="sanic", cors_allowed_origins=[])
-        socketintent_webhook = SocketBlueprint(
-            sio, self.socketio_path, "socketintent_webhook", __name__
+        socketio_webhook = SocketBlueprint(
+            sio, self.socketio_path, "socketio_webhook", __name__
         )
 
         # make sio object static to use in get_output_channel
         self.sio = sio
 
-        @socketintent_webhook.route("/", methods=["GET"])
+        @socketio_webhook.route("/", methods=["GET"])
         async def health(_: Request) -> HTTPResponse:
-            global ts
-            ts = _.app.agent.tracker_store
-
             return response.json({"status": "ok"})
 
         @sio.on("connect", namespace=self.namespace)
-        async def connect(
-            sid: Text, environ: Dict, auth: Optional[Dict]
-        ) -> Optional[bool]:
+        async def connect(sid: Text, environ: Dict, auth: Optional[Dict]) -> bool:
             if self.jwt_key:
                 jwt_payload = None
                 if auth and auth.get("token"):
                     jwt_payload = rasa.core.channels.channel.decode_bearer_token(
-                        auth.get("token"), self.jwt_key, self.jwt_algorithm,
+                        auth.get("token"), self.jwt_key, self.jwt_algorithm
                     )
 
                 if jwt_payload:
                     logger.debug(f"User {sid} connected to socketIO endpoint.")
+                    return True
                 else:
                     return False
             else:
                 logger.debug(f"User {sid} connected to socketIO endpoint.")
+                return True
 
         @sio.on("disconnect", namespace=self.namespace)
         async def disconnect(sid: Text) -> None:
@@ -234,7 +231,6 @@ class SocketIOInput(InputChannel):
                 data["session_id"] = uuid.uuid4().hex
             if self.session_persistence:
                 sio.enter_room(sid, data["session_id"])
-
             await sio.emit("session_confirm", data["session_id"], room=sid)
             logger.debug(f"User {sid} connected to socketIO endpoint.")
 
@@ -261,4 +257,4 @@ class SocketIOInput(InputChannel):
             )
             await on_new_message(message)
 
-        return socketintent_webhook
+        return socketio_webhook
