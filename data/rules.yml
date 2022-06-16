@@ -97,6 +97,15 @@ rules:
     - action: utter_current_state
     - action: send_Topic   
 
+- rule: after msg --> send json
+  steps:
+    - action: utter_domus_confuleius_inscriptions
+    - action: send_Topic       
+
+- rule: after msg --> send json
+  steps:
+    - action: utter_domus_confuleius_inscriptions_location
+    - action: send_Topic     
     
             
 
