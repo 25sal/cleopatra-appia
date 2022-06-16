@@ -135,19 +135,13 @@ responses:
   utter_my_location:
   - text: "You are on the Appia way, the red point is where you are!"
   utter_ask_topic:
-  - text: "What topic you are insterested in? (Arch, connocchia, domus, theather)"
+  - text: "What topic you are insterested in? (Arch, conocchia, domus, theather)"
   utter_info_path:
   - text: "You can visit: Arco of Adriano, Conocchia, Cryptoporticus, Domus of Confuleius, Domus in Via degli Orti, Theater. Ask me what you would like to know!"
   utter_bot_challenge:
   - text: "I'm Cleopatra, bot made by University of Campania 'Luigi Vanvitelli'" 
   utter_conocchia_enclosure:
   - text: "The enclosure assigned to the funerary space and the characteristics of the locus amoenus that made the stop pleasant for the visitor"
-   
-  utter_domus_confuleius_inscriptions:
-  - text: "Thanks to the floor inscription in the second room, we know that the domus belonged to a certain Publius Confuleio, perhaps a slave freed to the gens Confuleia. From the inscription emerges the pride of a freedman who wanted to leave his mark, to anyone who entered the domus, of his social ascent: a man who from slave to freedman built his house from the foundations to the top, also paying attention to the care of the environments dedicated to work. The inscription also shows the name of the architect of the domus, Titus Safinus Pollio, and his social status. Immediately after the transition between the first and the second environment there is also another inscription: a well-wishing inscription 'I wish all things would go well'."
-
-  utter_domus_confuleius_inscriptions_location:
-  - text: "The inscriptions are situated on the floor inscription in the second room."
 
   utter_domus_confuleius_owner: 
   - text: "Thanks to the floor inscription in the second room, we know that the domus belonged to a certain Publius Confuleio, perhaps a slave freed to the gens Confuleia, by profession sagarius, or the one who sold and probably worked the sagum, a heavy wool cloak used in military field. The hypothesis that Publio Confuleio, in addition to the sale, was also involved in the processing of the sagum, is suggested by the presence of the rectangular basin and the circular well in one of the two rooms. From the inscription emerges the pride of a freedman who wanted to leave his mark, to anyone who entered the domus, of his social ascent: a man who from slave to freedman built his house from the foundations to the top, also paying attention to the care of the environments dedicated to work."
@@ -551,7 +545,19 @@ responses:
         value: domus_orti
     text: "The complex is divided into numerous rooms and features a spa sector facing a porticoed garden with fountain and nymphaeum. Inside the domus there are several remains of flooring: these are brick, tessellated and sectilia orders."
 
-  
+  utter_domus_confuleius_inscriptions:
+  - condition:
+      - name: topic
+        type: slot
+        value: second_confuleius
+    text: "Thanks to the floor inscription in the second room, we know that the domus belonged to a certain Publius Confuleio, perhaps a slave freed to the gens Confuleia. From the inscription emerges the pride of a freedman who wanted to leave his mark, to anyone who entered the domus, of his social ascent: a man who from slave to freedman built his house from the foundations to the top, also paying attention to the care of the environments dedicated to work. The inscription also shows the name of the architect of the domus, Titus Safinus Pollio, and his social status. Immediately after the transition between the first and the second environment there is also another inscription: a well-wishing inscription 'I wish all things would go well'."
+
+  utter_domus_confuleius_inscriptions_location:
+  - condition:
+      - name: topic
+        type: slot
+        value: second_confuleius
+    text: "The inscriptions are situated on the floor inscription in the second room."
 
   utter_current_state:
   - condition:
