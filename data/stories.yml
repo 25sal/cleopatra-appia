@@ -1077,15 +1077,31 @@ stories:
 
 - story: domus_confuleius_inscriptions
   steps:
+  - intent: EXTERNAL_page_change
+  - action: utter_EXTERNAL_page_change
+  - action: action_set_Topic
   - intent: domus_confuleius_inscriptions
+    entities:
+    - topic: second_confuleius  
+  - slot_was_set:
+    - topic: second_confuleius
   - action: utter_domus_confuleius_inscriptions   
+  - action: send_Topic
 
 # domus_confuleius_inscriptions_location stories
 
 - story: domus_confuleius_inscriptions_location
   steps:
+  - intent: EXTERNAL_page_change
+  - action: utter_EXTERNAL_page_change
+  - action: action_set_Topic
   - intent: domus_confuleius_inscriptions_location
+    entities:
+    - topic: second_confuleius  
+  - slot_was_set:
+    - topic: second_confuleius
   - action: utter_domus_confuleius_inscriptions_location   
+  - action: send_Topic
  
 
 # domus_confuleius_owner stories
