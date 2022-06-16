@@ -31,6 +31,9 @@ nlu:
 
 - synonym: cryptoporticus
   examples: |
+    - criptoporticus
+    - cryptoporticus
+    - criptoportico
     - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/9   
     - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/10
     - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/11
@@ -105,6 +108,20 @@ nlu:
 
 - intent: what_is
   examples: |
+    - [triumphal arch]{"entity":"topic", "value":"triumphal_arch"}
+    - [Archi di Capua]{"entity":"topic", "value":"arch"}
+    - [Arco Felice]{"entity":"topic", "value":"arch"}
+    - [Arco di Adriano]{"entity":"topic", "value":"arch"}
+    - [arch]{"entity":"topic", "value":"arch"}
+    - [Arco di Capua]{"entity":"topic", "value":"arch"}
+    - [Conocchia]{"entity":"topic", "value":"conocchia"}
+    - [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"}
+    - [domus]{"entity":"topic", "value":"domus"}
+    - domus [confuleius]{"entity":"topic", "value":"domus_confuleius"}
+    - [confuleius]{"entity":"topic", "value":"domus_confuleius"}
+    - domus [orti]{"entity":"topic", "value":"domus_orti"}
+    - [orti]{"entity":"topic", "value":"domus_orti"}
+    - [theater]{"entity":"topic", "value":"theater"}
     - What is this?
     - What is a [triumphal arch]{"entity":"topic", "value":"triumphal_arch"}?
     - What are [Archi di Capua]{"entity":"topic", "value":"arch"}?
@@ -115,8 +132,8 @@ nlu:
     - Tell me something about [Conocchia]{"entity":"topic", "value":"conocchia"}.
     - What is [Conocchia]{"entity":"topic", "value":"conocchia"}?
     - What is [conocchia]{"entity":"topic", "value":"conocchia"}?
-    - What is a [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"}?
-    - Tell me about the [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"} of ancient Capua.
+    - What is a [criptoporticus]{"entity":"topic", "value":"cryptoporticus"}?
+    - Tell me about the [criptoportico]{"entity":"topic", "value":"cryptoporticus"} of ancient Capua.
     - Give me additional information about the [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"} of Capua.
     - What kind of construction is a [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"}?
     - What is a [domus]{"entity":"topic", "value":"domus"}?
@@ -169,6 +186,7 @@ nlu:
     - Where did the [theater]{"entity":"topic", "value":"theater"} fit into the ancient landscape?
     - In which original place of the city was the [theater]{"entity":"topic", "value":"theater"} situated?
     - What did a [funerary]{"entity":"topic", "value":"cryptoporticus"} monument represent in ancient times?
+    - What a [funerary]{"entity":"topic", "value":"cryptoporticus"} monument represented in ancient times
     - What represented [Conocchia]{"entity":"topic", "value":"conocchia"} in origin?
     - What represented [Conocchia]{"entity":"topic", "value":"conocchia"} long time ago?
 
@@ -202,6 +220,13 @@ nlu:
    
 - intent: monument_date
   examples: |
+    - when you date [arch]{"entity":"topic", "value":"arch"}?
+    - when you date the [bow]{"entity":"topic", "value":"arch"}
+    - When you date [Conocchia]{"entity":"topic", "value":"conocchia"} ?
+    - what epoch the [arch]{"entity":"topic", "value":"arch"} of Capua dates back to
+    - could you tell me the dating of the [arch]{"entity":"topic", "value":"arch"}
+    - could you tell me the dating of the domus of [Confuleius]{"entity":"topic", "value":"domus_confuleius"}
+    - what epoch the [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"} of Capua dates back to
     - In which epoch the [arch]{"entity":"topic", "value":"arch"}  is placed?
     - What is the historical context of the [arch]{"entity":"topic", "value":"arch"} ?
     - When the [arch]{"entity":"topic", "value":"arch"}  was built?
@@ -413,13 +438,15 @@ nlu:
 
 - intent: domus_confuleius_inscriptions
   examples: |
-    - How many inscriptions are there in the domus confuleius?
-    - Are there many inscriptions in the domus confuleius?
+    - How many [inscriptions]{"entity":"topic", "value":"second_confuleius"} are there in the domus confuleius?
+    - Are there many [inscriptions]{"entity":"topic", "value":"second_confuleius"} in the domus confuleius?
+    - Is there some [inscription]{"entity":"topic", "value":"second_confuleius"}
 
 - intent: domus_confuleius_inscriptions_location
   examples: |
-    - Where are the domus confuleius inscriptions kept?
-    - Where are the domus confuleius inscriptions saved?
+    - Where are the domus confuleius [inscriptions]{"entity":"topic", "value":"second_confuleius"} kept?
+    - Where are the domus confuleius [inscriptions]{"entity":"topic", "value":"second_confuleius"} saved?
+    - Is there some [inscription]{"entity":"topic", "value":"second_confuleius"}
 
 - intent: domus_confuleius_floors
   examples: |
