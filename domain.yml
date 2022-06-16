@@ -3,6 +3,7 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
+- EXTERNAL_page_change
 - greet
 - goodbye
 - my_location
@@ -46,7 +47,6 @@ entities:
 - annotation_url
 - topic
 - word
-- rooms
 slots:
   page_url:
     type: any
@@ -109,13 +109,6 @@ slots:
     - peculiaris
     - confuleius
     - fattori
-  rooms:
-    type: categorical
-    influence_conversation: true
-    mappings:
-    - type: from_entity
-      entity: rooms
-    values:
     - first_confuleius
     - second_confuleius
   word:
@@ -173,7 +166,9 @@ responses:
 
   utter_domus_via_orti_entrance:
   - text: "The main entrance has not been identified infact you enter the domus da via degli Orti that is from where the garden that played a very important role in the Roman houses was originally located, cheered the guests."
-
+  
+  utter_EXTERNAL_page_change:
+  - text: ""
 
 
 
@@ -592,7 +587,7 @@ responses:
 
   utter_domus_confuleius_rooms:
   - condition:
-      - name: rooms
+      - name: topic
         type: slot
         value: first_confuleius
     text: "The first room is divided in half by a narrow rectangular band made up of circles with central crosses. This strip divides the room into two different floor decorations:
@@ -600,7 +595,7 @@ responses:
             2) to the south a square, surrounded on all four sides by plant-themed decorations, with a circle in the center decorated with an external band of meanders and an internal one with wedges, and framed by an expanse of crosses.
             In this room there is a rectangular basin and a circular well which were most likely used for the processing of segum and therefore suggest a vestibular function of this first room."
   - condition:
-      - name: rooms
+      - name: topic
         type: slot
         value: second_confuleius
     text: "The second room is accessed through an opening in the west wall of the first room with rectangular carpet flooring divided into squares with crosses in the center. As soon as you enter there is a mosaic inscription bearing a wish to visitors: 'I wish all things go well for us.'
@@ -610,12 +605,18 @@ responses:
   
   utter_domus_confuleius_floors:
   - condition:
-      - name: rooms
+      - name: topic
         type: slot
         value: first_confuleius
     text: "In the first room a narrow rectangular band with circles that include central crosses divides two different types of floor decoration: on one side a rectangular carpet of rhombuses with white tiles framed, in turn, by black and white tiles, on the other an expanse of crocette encloses a square surrounded at the four corners by plant motifs with a shield with a pinwheel motif in the center, included in an external meander band."
   - condition:
-      - name: rooms
+      - name: topic
         type: slot
         value: second_confuleius
     text: "In the second room the inscription by Publio Confuleio divides the two types of floor decoration: on one side a carpet of hexagons each enclosing a cross, on the other, after a plant-themed band decoration, follows a carpet of swastika meanders that frame a large central rose window."  
+
+actions:
+- action_set_Topic
+- send_Topic
+forms: {}
+e2e_actions: []    
