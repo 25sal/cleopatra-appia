@@ -4,17 +4,60 @@ nlu:
 
 - synonym: arch
   examples: |
+    - Arch
     - Archi di Capua
     - Arco di Adriano
     - Arco Felice
     - Arco di Capua
     - Arco
     - Arch of Capua
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/0
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/1
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/2
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/3
+
+- synonym: fattori
+  examples: |
+    - Fattori
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/4
 
 - synonym: conocchia
   examples: |
     - Conocchia
     - grave
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/5
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/6
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/7
+
+- synonym: cryptoporticus
+  examples: |
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/9   
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/10
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/11
+
+- synonym: domus_confuleius
+  examples: |
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/12
+    
+- synonym: second_confuleius
+  examples: |
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/13
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/14
+
+- synonym: domus_orti
+  examples: |
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/15
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/16
+
+- synonym: theater
+  examples: |
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/17
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/18
+
+- synonym: peculiaris
+  examples: |
+    - https://parsec2.unicampania.it/cleopatra/cleodemo/summerschool/index.json/canvas/19
+
     
 
 - intent: greet
@@ -62,6 +105,7 @@ nlu:
 
 - intent: what_is
   examples: |
+    - What is this?
     - What is a [triumphal arch]{"entity":"topic", "value":"triumphal_arch"}?
     - What are [Archi di Capua]{"entity":"topic", "value":"arch"}?
     - What is [Arco di Adriano]{"entity":"topic", "value":"arch"}?
@@ -70,6 +114,7 @@ nlu:
     - Tell me about [Arco di Capua]{"entity":"topic", "value":"arch"}
     - Tell me something about [Conocchia]{"entity":"topic", "value":"conocchia"}.
     - What is [Conocchia]{"entity":"topic", "value":"conocchia"}?
+    - What is [conocchia]{"entity":"topic", "value":"conocchia"}?
     - What is a [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"}?
     - Tell me about the [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"} of ancient Capua.
     - Give me additional information about the [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"} of Capua.
@@ -258,6 +303,7 @@ nlu:
     - Tell me about the [cryptoporticus]{"entity":"topic", "value":"cryptoporticus"} of Carlo Labruzzi.
     - How was the [arch]{"entity":"topic", "value":"arch"} of Carlo Labruzzi?
     - Tell me about the [arch]{"entity":"topic", "value":"arch"} of Carlo Labruzzi
+    - Tell me about this
     - What does the depiction of the  [arch]{"entity":"topic", "value":"arch"} by Carlo Labruzzi look like?
     - Tell me about the theater of Lucceius [Peculiaris]{"entity":"topic", "value":"peculiaris"}.
     - What is represented on the Lucceius [Peculiaris]{"entity":"topic", "value":"peculiaris"} relief?
@@ -359,10 +405,10 @@ nlu:
 
 - intent: domus_confuleius_rooms
   examples: |
-    - What is in the [first]{"entity":"rooms", "value":"first_confuleius"} room of the confuleius domus?
-    - What is in the [first]{"entity":"rooms", "value":"first_confuleius"} space of the confuleius domus?
-    - What is in the [second]{"entity":"rooms", "value":"second_confuleius"} room of the confuleius domus?
-    - What is in the [second]{"entity":"rooms", "value":"second_confuleius"} space of the confuleius domus?
+    - What is in the [first]{"entity":"topic", "value":"first_confuleius"} room of the confuleius domus?
+    - What is in the [first]{"entity":"topic", "value":"first_confuleius"} space of the confuleius domus?
+    - What is in the [second]{"entity":"topic", "value":"second_confuleius"} room of the confuleius domus?
+    - What is in the [second]{"entity":"topic", "value":"second_confuleius"} space of the confuleius domus?
 
 
 - intent: domus_confuleius_inscriptions
@@ -377,12 +423,13 @@ nlu:
 
 - intent: domus_confuleius_floors
   examples: |
-    - Describe me floor of the [first]{"entity":"rooms", "value":"first_confuleius"} room.
-    - What about floor of the [first]{"entity":"rooms", "value":"first_confuleius"} room?
-    - What does the floor of the [first]{"entity":"rooms", "value":"first_confuleius"} room look like?
-    - Describe me floor of the [second]{"entity":"rooms", "value":"second_confuleius"} room.
-    - What about floor of the [second]{"entity":"rooms", "value":"second_confuleius"} room?
-    - What does the floor of the [second]{"entity":"rooms", "value":"second_confuleius"} room look like?
+    - Describe me floor of the [first]{"entity":"topic", "value":"first_confuleius"} room.
+    - What about floor of the [first]{"entity":"topic", "value":"first_confuleius"} room?
+    - What does the floor of the [first]{"entity":"topic", "value":"first_confuleius"} room look like?
+    - Describe me floor of the [second]{"entity":"topic", "value":"second_confuleius"} room.
+    - What about floor of the [second]{"entity":"topic", "value":"second_confuleius"} room?
+    - What about this floor
+    - What does the floor of the [second]{"entity":"topic", "value":"second_confuleius"} room look like?
 
 
 - intent: domus_confuleius_owner
